@@ -37,9 +37,9 @@ export default function Link({ link, index, updateStoreAfterVote }) {
                 <span className="gray">{index + 1}.</span>
                 {authToken && (
                     <Mutation mutation={VOTE_MUTATION} variables={{ linkId: link.id }}
-                        update={(store, { data: { vote } }) =>
-                            updateStoreAfterVote(store, vote, link.id)
-                        }
+                    // update={(store, { data: { vote } }) =>
+                    //     updateStoreAfterVote(store, vote, link.id)
+                    // }
                     >
                         {voteMutation => (
                             <div className="ml1 gray f11" onClick={voteMutation}>

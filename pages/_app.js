@@ -26,7 +26,7 @@ const httpLink = createHttpLink({
     fetch: fetch
 })
 
-const client = new ApolloClient({
+export const client = new ApolloClient({
     link: authLink.concat(httpLink),
     cache: new InMemoryCache()
 })

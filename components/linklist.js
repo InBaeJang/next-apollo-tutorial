@@ -27,14 +27,14 @@ export const FEED_QUERY = gql`
 `
 
 export default function ContentsList() {
-    const _updateCacheAfterVote = (store, createVote, linkId) => {
-        const data = store.readQuery({ query: FEED_QUERY })
+    // const _updateCacheAfterVote = (store, createVote, linkId) => {
+    //     const data = store.readQuery({ query: FEED_QUERY })
 
-        const votedLink = data.feed.links.find(link => link.id === linkId)
-        votedLink.votes = createVote.link.votes
+    //     const votedLink = data.feed.links.find(link => link.id === linkId)
+    //     votedLink.votes = createVote.link.votes
 
-        store.writeQuery({ query: FEED_QUERY, data })
-    }
+    //     store.writeQuery({ query: FEED_QUERY, data })
+    // }
     return (
         <Query query={FEED_QUERY}>
             { ({ loading, error, data }) => {
@@ -48,7 +48,7 @@ export default function ContentsList() {
                             <Link key={link.id}
                                 link={link}
                                 index={index}
-                                updateStoreAfterVote={_updateCacheAfterVote}
+                            // updateStoreAfterVote={_updateCacheAfterVote()}
                             />
                         )}
                     </div>

@@ -44,6 +44,9 @@ export default function Layout({ children, home }) {
           <Link href="/createlinkpage">
             <a>Create</a>
           </Link>)}
+        <Link href="/searchpage">
+          <a>Search</a>
+        </Link>
 
         <div className="flex flex-fixed">
           {authToken ? (
