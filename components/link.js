@@ -1,7 +1,30 @@
 import { useState, useEffect } from 'react';
 import { AUTH_TOKEN } from '../lib/constants'
+import timeDifferenceForDate from '../lib/utils'
+import { Mutation } from 'react-apollo'
+import gql from 'graphql-tag'
 
-export default function Link({ link, index }) {
+const VOTE_MUTATION = gql`
+    mutation VoteMutation($linkId: ID!) {
+        vote(linkId: $linkId) {
+            id
+            link {
+                id
+                votes {
+                    id
+                    user {
+                        id
+                    }
+                }
+            }
+            user {
+                id
+            }
+        }
+    }
+`
+
+export default function Link({ link, index, updateStoreAfterVote }) {
     const [authToken, setAuthToken] = useState('');
 
     useEffect(() => {
@@ -13,9 +36,17 @@ export default function Link({ link, index }) {
             <div className="flex items-center">
                 <span className="gray">{index + 1}.</span>
                 {authToken && (
-                    <div className="ml1 gray f11" onClick={() => this._voteForLink()}>
-                        ▲
-                    </div>
+                    <Mutation mutation={VOTE_MUTATION} variables={{ linkId: link.id }}
+                        update={(store, { data: { vote } }) =>
+                            updateStoreAfterVote(store, vote, link.id)
+                        }
+                    >
+                        {voteMutation => (
+                            <div className="ml1 gray f11" onClick={voteMutation}>
+                                ▲
+                            </div>
+                        )}
+                    </Mutation>
                 )}
             </div>
             <div className="ml1">
@@ -27,7 +58,7 @@ export default function Link({ link, index }) {
                     {link.postedBy
                         ? link.postedBy.name
                         : 'Unknown'}{' '}
-                    {/* {timeDifferenceForDate(link.createdAt)} */}
+                    [{timeDifferenceForDate(link.createdAt)}]
                 </div>
             </div>
         </div>

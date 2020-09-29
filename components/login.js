@@ -31,9 +31,6 @@ export default function Login() {
     const [name, setName] = useState('');
 
     const _confirm = async data => {
-        for (let key in data.signup) {
-            console.log("Attribute: " + key + ", value: " + data.signup[key])
-        }
         const { token } = login ? data.login : data.signup
         _saveUserData(token)
         router.push('/')
@@ -74,7 +71,10 @@ export default function Login() {
                 <Mutation
                     mutation={login ? LOGIN_MUTATION : SIGNUP_MUTATION}
                     variables={{ email, password, name }}
-                    onCompleted={data => _confirm(data)}
+                    onCompleted={data => {
+                        _confirm(data)
+                        router.push('/')
+                    }}
                 >
                     {mutation => (
                         <button onClick={mutation}>

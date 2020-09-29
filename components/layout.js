@@ -21,6 +21,7 @@ export default function Layout({ children, home }) {
     <div className={styles.container}>
       <Head>
         <link rel="icon" href="/favicon.ico" />
+        <link rel="stylesheet" href="https://unpkg.com/tachyons@4.2.1/css/tachyons.min.css" />
         <meta
           name="description"
           content="Learn how to build a personal website using Next.js"
@@ -39,9 +40,10 @@ export default function Layout({ children, home }) {
         <Link href="/feed">
           <a>Feed</a>
         </Link>
-        <Link href="/createlinkpage">
-          <a>Create</a>
-        </Link>
+        {authToken && (
+          <Link href="/createlinkpage">
+            <a>Create</a>
+          </Link>)}
 
         <div className="flex flex-fixed">
           {authToken ? (

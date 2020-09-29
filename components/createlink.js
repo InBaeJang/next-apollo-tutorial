@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
+import { useRouter } from 'next/router';
+import { FEED_QUERY } from './linklist'
 
 const POST_MUTATION = gql`
     mutation PostMutation($description: String!, $url: String!) {
@@ -13,6 +15,7 @@ const POST_MUTATION = gql`
 `
 
 export default function CreateLink() {
+    const router = useRouter();
     const [description, setDescription] = useState('');
     const [url, setUrl] = useState('');
 
@@ -34,7 +37,19 @@ export default function CreateLink() {
                     placeholder="The URL for the link"
                 />
             </div>
-            <Mutation mutation={POST_MUTATION} variables={{ description, url }}>
+            <Mutation
+                mutation={POST_MUTATION}
+                variables={{ description, url }}
+                onCompleted={() => router.push('/')}
+                update={(store, { data: { post } }) => {
+                    const data = store.readQuery({ query: FEED_QUERY })
+                    data.feed.links.unshift(post)
+                    store.writeQuery({
+                        query: FEED_QUERY,
+                        data
+                    })
+                }}
+            >
                 {postMutation => <button onClick={postMutation}>Submit</button>}
             </Mutation>
         </div>

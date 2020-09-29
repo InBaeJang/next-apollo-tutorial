@@ -22,8 +22,10 @@ const authLink = setContext((_, { headers }) => {
 
 const httpLink = createHttpLink({
     uri: 'http://localhost:4000',
+    // uri: 'https://server.inbaedid.kro.kr',
     fetch: fetch
 })
+
 const client = new ApolloClient({
     link: authLink.concat(httpLink),
     cache: new InMemoryCache()
