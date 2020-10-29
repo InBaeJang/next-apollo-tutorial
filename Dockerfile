@@ -7,7 +7,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install PM2 globally
-RUN npm install pm2 -g
+# RUN npm install pm2 -g
 
 # Install app dependencies
 RUN npm install
@@ -22,7 +22,9 @@ EXPOSE 3000
 # Run container as non-root (unprivileged) user
 # The node user is provided in the Node.js Alpine base image
 USER node
-CMD [ "pm2-runtime", "start", "npm", "--", "start" ]
+
+CMD [ "npm", "run" , "start"]
+# CMD [ "pm2-runtime", "start", "npm", "--", "start" ]
 
 # docker run -d \
 #       -p 3000:3000 \
